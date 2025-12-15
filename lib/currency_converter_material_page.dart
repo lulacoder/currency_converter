@@ -1,13 +1,26 @@
-
 import 'package:flutter/material.dart';
 
-class CurrencyConverterMaterialPage extends StatelessWidget {
+class CurrencyConverterMaterialPage extends StatefulWidget {
   const CurrencyConverterMaterialPage({super.key});
 
   @override
+  State<CurrencyConverterMaterialPage> createState() =>
+      _CurrencyConverterMaterialPageState();
+}
+
+class _CurrencyConverterMaterialPageState
+    extends State<CurrencyConverterMaterialPage> {
+  double result = 0;
+  final TextEditingController textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    double result = 0;
-    final TextEditingController textEditingController = TextEditingController();
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 1),
       appBar: AppBar(
@@ -41,7 +54,7 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
                   prefixIcon: Icon(Icons.monetization_on),
                   prefixIconColor: Colors.white,
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Colors.white12,
                   focusedBorder: OutlineInputBorder(),
                 ),
               ),
@@ -50,8 +63,11 @@ class CurrencyConverterMaterialPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  result = double.parse(textEditingController.text) * 81;
-                  // debug , release, profile
+                  setState(() {
+                    final input =
+                        double.tryParse(textEditingController.text) ?? 0;
+                    result = input * 81;
+                  });
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.black,
